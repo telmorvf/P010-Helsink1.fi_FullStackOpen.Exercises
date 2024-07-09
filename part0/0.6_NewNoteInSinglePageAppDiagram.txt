@@ -1,0 +1,45 @@
+title 0.6: New note in Single page app diagram
+
+
+    note over browser: The user goes to the SPA version \nhttps://studies.cs.helsinki.fi/exampleapp/spa
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+
+    activate server
+    server-->browser: HTML document
+    deactivate server
+    
+    note over browser: So, the browser reloads the Notes page.\nThe reload causes more HTTP requests: \n   - Fetching the style sheet (main.css);\n   - the JavaScript code (spa.js).
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->browser: the css file
+    deactivate server
+
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->browser: the JavaScript file
+    deactivate server
+
+    Note over  browser: The browser starts executing the JavaScript\ncode that fetches the JSON from the server
+
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->browser: [{ "content": "My Name is Telmo", "date": "2024-01-09T14:24:59.845Z" },{ ...
+    deactivate server
+
+    Note over browser: The browser executes the callback function\n that renders the notes
+    
+    
+    
+    Note right of browser: Then the event handler creates a new note, \nadds it to the notes list with the command\nnotes.push(note), rerenders the note list on\nthe page and sends the new note to the server.
+    Note right of browser:  The Content-Type header of the request tells the server that included data is represented in JSON format.
+        
+
+    browser->server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    
+
+    Note right of browser:  The POST request to the address new_note_spa\n contains the new note as JSON format:\n{"content":"Ricardo","date":"2024-07-09T19:55:52.080Z"}
+    
+    Note over server: The server responds with status code 201 created.\nThis time the server does not ask for a redirect,\nthe browser stays on the same page, and it sends\nno further HTTP requests.
+    server-->browser: The header of new_note_spa receive the status code: "HTTP 201 Created" {"message": "note created"}
+    
+    Note over browser: No futher HTTP requests, so the server list\nof notes is up to date, but the browser list\nwill never have the new server notes.

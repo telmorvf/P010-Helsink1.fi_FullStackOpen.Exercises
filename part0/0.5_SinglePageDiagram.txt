@@ -1,0 +1,66 @@
+https://www.websequencediagrams.com/app#
+Google account
+
+title 0.5: New note diagram
+
+
+
+    note over browser: We go open the webpage:\nhttps://studies.cs.helsinki.fi/exampleapp/notes
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+
+    activate server
+    server-->browser: HTML document
+    deactivate server
+
+    
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->browser: the css file
+    deactivate server
+
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->browser: the JavaScript file
+    deactivate server
+
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->browser: [{ "content": "My Name is John", "date": "2024-01-08T13:24:59.845Z" },{ ...
+    deactivate server
+    note over browser: I fill the input text Box, with any text.
+    
+    
+
+    note over browser: When the button on the form is clicked, \nthe browser will send the user input to the server.\nIt is an HTTP POST request to the server\naddress new_note.
+    browser->server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    
+    note over server: This is a URL redirect, with which the server\n asks the browser to perform a new HTTP GET
+    server->browser: The server responds with HTTP status code 302.
+
+
+    note over browser: HTTP GET request to the address defined \nin the header's Location - the address notes
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+
+    activate server
+    server-->browser: HTML document
+    deactivate server
+    
+    note over browser: So, the browser reloads the Notes page.\nThe reload causes more HTTP requests: \n   - Fetching the style sheet (main.css);\n   - the JavaScript code (main.js).
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->browser: the css file
+    deactivate server
+
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->browser: the JavaScript file
+    deactivate server
+
+    Note over  browser: The browser starts executing the JavaScript\ncode that fetches the JSON from the server
+
+    browser->server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->browser: [{ "content": "My Name is Telmo", "date": "2024-01-09T14:24:59.845Z" },{ ...
+    deactivate server
+
+    Note over browser: The browser executes the callback function\n that renders the notes
